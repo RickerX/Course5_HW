@@ -1,0 +1,86 @@
+skypro=# CREATE TABLE city(
+skypro=# city_id BIGSERIAL NOT NULL PRIMARY KEY,
+skypro=# city_name VARCHAR(60)
+skypro=# );
+skypro=# ALTER TABLE employee
+skypro-# ADD city_id INT NULL;
+skypro=# ALTER TABLE employee
+skypro-# ADD FOREIGN KEY(city_id) REFERENCES city(city_id);
+skypro=# UPDATE employee SET city_id =1 WHERE last_name = 'Pshenichnikov';
+UPDATE 1
+skypro=# UPDATE employee SET city_id =2 WHERE last_name = 'Petrov';
+UPDATE 1
+skypro=# UPDATE employee SET city_id =3 WHERE last_name = 'Smirnov';
+UPDATE 1
+skypro=# UPDATE employee SET city_id =4 WHERE last_name = 'Sidorova';
+UPDATE 1
+skypro=# UPDATE employee SET city_id =5 WHERE last_name = 'Ivanova';
+UPDATE 1
+skypro=# SELECT city_name, first_name, last_name
+skypro-# FROM city
+skypro-# INNER JOIN employee
+skypro-# ON city.city_id=employee.city_id;
+ city_name | first_name |   last_name
+-----------+------------+---------------
+ Kolomna   | Roman      | Pshenichnikov
+ Moscow    | Oleg       | Petrov
+ Tula      | Ivan       | Smirnov
+ Tver      | Kate       | Ivanova
+ Voronej   | Anna       | Sidorova
+skypro=# SELECT city_name, first_name, last_name
+skypro-# FROM city
+skypro-# LEFT JOIN employee
+skypro-# ON city.city_id=employee.city_id;
+ city_name | first_name |   last_name
+-----------+------------+---------------
+ Kolomna   | Roman      | Pshenichnikov
+ Moscow    | Oleg       | Petrov
+ Tula      | Ivan       | Smirnov
+ Tver      | Kate       | Ivanova
+ Voronej   | Anna       | Sidorova
+ Krasnodar |            |
+skypro=# SELECT city_name, first_name, last_name
+skypro-# FROM city
+skypro-# FULL JOIN employee
+skypro-# ON city.city_id=employee.city_id;
+ city_name | first_name |   last_name
+-----------+------------+---------------
+ Kolomna   | Roman      | Pshenichnikov
+ Moscow    | Oleg       | Petrov
+ Tula      | Ivan       | Smirnov
+ Tver      | Kate       | Ivanova
+ Voronej   | Anna       | Sidorova
+           | Artem      | Slonov
+ Krasnodar |            |
+skypro=# SELECT city_name, first_name, last_name
+skypro-# FROM city
+skypro-# CROSS JOIN employee;
+ city_name | first_name |   last_name
+-----------+------------+---------------
+ Kolomna   | Roman      | Pshenichnikov
+ Kolomna   | Oleg       | Petrov
+ Kolomna   | Ivan       | Smirnov
+ Kolomna   | Kate       | Ivanova
+ Kolomna   | Anna       | Sidorova
+ Kolomna   | Artem      | Slonov
+ Moscow    | Roman      | Pshenichnikov
+ Moscow    | Oleg       | Petrov
+ Moscow    | Ivan       | Smirnov
+ Moscow    | Kate       | Ivanova
+ Moscow    | Anna       | Sidorova
+ Moscow    | Artem      | Slonov
+ Tula      | Roman      | Pshenichnikov
+ Tula      | Oleg       | Petrov
+ Tula      | Ivan       | Smirnov
+ Tula      | Kate       | Ivanova
+ Tula      | Anna       | Sidorova
+ Tula      | Artem      | Slonov
+ Voronej   | Roman      | Pshenichnikov
+ Voronej   | Oleg       | Petrov
+ Voronej   | Ivan       | Smirnov
+ Voronej   | Kate       | Ivanova
+ Voronej   | Anna       | Sidorova
+ Voronej   | Artem      | Slonov
+ Tver      | Roman      | Pshenichnikov
+ Tver      | Oleg       | Petrov
+ Tver      | Ivan       | Smirnov
